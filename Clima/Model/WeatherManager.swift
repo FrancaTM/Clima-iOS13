@@ -33,15 +33,21 @@ struct WeatherManager {
             task.resume()
         }
     }
-        
+    
     func parseJSON(weatherData: Data) {
         let decoder = JSONDecoder()
         do {
             let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
-            print(decodedData.main.temp)
-            print(decodedData.weather[0].description)
+            let id = decodedData.weather[0].id
+            let temp = decodedData.main.temp
+            let name = decodedData.name
+            
+            let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
+            
+            print(weather.temperatureString)
         } catch {
             print(error)
         }
     }
+    
 }
